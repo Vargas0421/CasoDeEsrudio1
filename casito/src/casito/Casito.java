@@ -1,29 +1,31 @@
 
 package casito;
 import javax.swing.JOptionPane;
-import java.util.ArrayList;
+import java.util.ArrayList;// estas vienen pegadas a lo mismo que me encontre en redit para almacenar la infromacino 
 import java.util.List;
 
 public class Casito {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) { // aca preguntamso los datos solo una vez porque en teoria es el mismo cliente 
         String nombreCliente = JOptionPane.showInputDialog("Nombre del cliente: ");
         String cedulaCliente = JOptionPane.showInputDialog("Cedula del cliente: ");
 
-        List<Factura> facturas = new ArrayList<Factura>();
+        List<Factura> facturas = new ArrayList<>();//Esta linea se usa para crear una nueva lista de objetos
+        // esta fue la manera en la que encontre almacenar la informacion me la encontre en un foro miedo de redit jajaja
 
         int cantidadFacturas = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad de facturas a registrar: "));
 
-        for (int i = 0; i < cantidadFacturas; i++) {
-            System.out.println("Factura #" + (i + 1));
+        for (int i = 0; i < cantidadFacturas; i++) { // aca creamos un for para preguintar lo mismo dependiendo de la cantidad de facturas selecionadas
+            System.out.println("Factura #" + (i + 1)); //aca se pide por pantalla que se ingresen los datos necesarios 
             int numeroFactura = Integer.parseInt(JOptionPane.showInputDialog("Numero de factura: "));
             double montoFactura = Double.parseDouble(JOptionPane.showInputDialog("Monto de la factura: "));
             int mesFactura = Integer.parseInt(JOptionPane.showInputDialog("Mes de la factura (como número): "));
             int anoFactura = Integer.parseInt(JOptionPane.showInputDialog("Año de la factura: "));
             int estadoFactura = Integer.parseInt(JOptionPane.showInputDialog("Estado de la factura (1 - Pagada, 2 - No pagada): "));
 
-            boolean pagada = (estadoFactura == 1);
+            boolean pagada = (estadoFactura == 1); // esta variable se anade para que no se anadan cuentas que ya se pagaron 
             facturas.add(new Factura(nombreCliente, cedulaCliente, numeroFactura, montoFactura, mesFactura, anoFactura, pagada));
+            //se anade una "factura"
         }
 
         System.out.println("\nResumen de facturas:");
@@ -33,23 +35,12 @@ public class Casito {
             if (!factura.estaPagada()) {
                 totalDeuda += factura.obtenerMontoFactura();
             }
-            System.out.println("Cliente: " + nombreCliente);
-            System.out.println("Cedula: " + cedulaCliente);
-            System.out.println("Numero de factura: " + factura.obtenerNumeroFactura());
-            System.out.println("Monto de la factura: " + factura.obtenerMontoFactura());
-            System.out.println("Mes de la factura: " + factura.obtenerMesFactura());
-            System.out.println("Año de la factura: " + factura.obtenerAnoFactura());
-            System.out.println("Estado de la factura: " + (factura.estaPagada() ? "Pagada" : "No pagada"));
-            System.out.println();
+            System.out.println("El cliente debe un total de $" + totalDeuda + " con un interés del 5%.");
         }
 
-        if (totalDeuda > 0) {
-            double interes = totalDeuda * 0.05;
-            double cuotaMensual = (totalDeuda + interes) / 6;
-            System.out.println("El cliente debe un total de $" + totalDeuda + " con un interés del 5%.");
-            System.out.println("El plan de pago fraccionado a 6 meses es de $" + cuotaMensual + " por mes.");
-        } else {
-            System.out.println("El cliente no tiene deudas pendientes.");
-        }
+        if (totalDeuda > 0) { // aca es donde se calcula la deuda
+            double debePagar = ((totalDeuda*0.05)+totalDeuda)/6;
+            System.out.println("El total a pafar cada 6 meses es de $" + debePagar + " por mes, esto ya con el interes.");
+            } 
     }
 }
